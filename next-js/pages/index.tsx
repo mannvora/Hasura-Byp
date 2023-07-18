@@ -55,7 +55,7 @@ export default function Home({friends}: InferGetServerSidePropsType<typeof getSe
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <div className="flex flex-col items-center justify-center w-full lg:flex-row">
           {
-            friends.map((friend: {name: string}) => {
+            friends?.map((friend: {name: string}) => {
               return (
                 <span key = {friend.name} className='text-blue-400 p-6'>{friend?.name}</span>
               )
