@@ -30,9 +30,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     });
 
     const result = await response.json();
-    const data = result.data;
+    const data = await result.data;
 
-    friends = data.friend;
+    console.log(data, 'data');
+
+    friends = await data.friend;
 
     console.log(friends); 
   } catch(error){
@@ -57,7 +59,7 @@ export default function Home({friends}: InferGetServerSidePropsType<typeof getSe
           {
             friends?.map((friend: {name: string}) => {
               return (
-                <span key = {friend.name} className='text-blue-400 p-6'>{friend?.name}</span>
+                <span key = {friend.name} className='text-blue-400 p-6'>{friend.name}</span>
               )
             })
           }
