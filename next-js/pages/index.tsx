@@ -1,58 +1,72 @@
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import { GetStaticPaths, GetStaticProps, GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { GetStaticPaths, GetStaticProps, GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
 import { Key } from 'react'
-
-const inter = Inter({ subsets: ['latin'] })
+import {client} from '../utils/client';
+import { GetFriends, GetFriendsQuery, GetFriendsQueryVariables } from '../generated/graphql';
 
 type Data = {
   friends: Record<string, string>[]
 }
 
+const QUERY = 
+`query {
+  friend {
+    name
+  }
+}`
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
-  let friends;
+  return client.query<GetFriendsQuery, GetFriendsQueryVariables>(GetFriends).toPromise().then(d => {
+    return { 
+      props: 
+       {
+        friends: d.data?.friend
+      } 
+    }
+  }).catch(e => {
+    return {
+      props: {}
+    }
+  })
 
-  try {
-    const response = await fetch(process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT as string, {
-      method: 'POST',
-      headers: {
-        'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET as string,
-      },
-      body: JSON.stringify({
-        query: 
-        `query {
-          friend {
-            name
-          }
-        }`
-      })
-    });
+  // try {
+  //   const response = await fetch(process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT as string, {
+  //     method: 'POST',
+  //     headers: {
+  //       'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET as string,
+  //     },
+  //     body: JSON.stringify({
+  //       query: 
+  //       `query {
+  //         friend {
+  //           name
+  //         }
+  //       }`
+  //     })
+  //   });
 
-    const result = await response.json();
-    const data = await result.data;
+  //   const result = await response.json();
+  //   const data = await result.data;
 
-    console.log(data, 'data');
+  //   console.log(data, 'data');
 
-    friends = await data.friend;
+  //   friends = await data.friend;
 
-    console.log(friends); 
-  } catch(error){
-    console.log(error);
-  }
-
-  return { 
-    props: 
-    {
-      friends
-    } 
-  }
+  //   console.log(friends); 
+  // } catch(error){
+  //   console.log(error);
+  // }
 }
 
-export default function Home({friends}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+interface Props {
+  friends: GetFriendsQuery["friend"]
+}
+
+const Home: NextPage<Props> = ({friends}) => {
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between p-24`}
     >
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <div className="flex flex-col items-center justify-center w-full lg:flex-row">
@@ -68,3 +82,5 @@ export default function Home({friends}: InferGetServerSidePropsType<typeof getSe
     </main>
   )
 }
+
+export default Home;
