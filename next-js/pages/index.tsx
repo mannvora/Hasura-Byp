@@ -18,9 +18,9 @@ const QUERY =
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return client.query<GetFriendsQuery, GetFriendsQueryVariables>(GetFriends).toPromise().then(d => {
-    console.log(d.data?.friend);
+    console.log(d);
     return { 
-      props: 
+      props:  
        {
         friends: d.data?.friend
       } 
