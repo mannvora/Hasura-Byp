@@ -1,3 +1,40 @@
+
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- alter table "public"."pizza" add column "updated_at" timestamptz
+--  null default now();
+
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- alter table "public"."pizza" add column "created_at" timestamptz
+--  null default now();
+
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- alter table "public"."pizza" add column "original_friend" integer
+--  not null;
+
+alter table "public"."friend" alter column "name" drop not null;
+alter table "public"."friend" add column "name" text;
+
+alter table "public"."friend" alter column "username" drop not null;
+
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- alter table "public"."friend" add column "password" text
+--  null;
+
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- alter table "public"."friend" add column "username" text
+--  null unique;
+
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- INSERT into friend (name) VALUES ('PETER');
+-- INSERT into friend (name) VALUES ('PAUL');
+-- INSERT into friend (name) VALUES ('MARY');
+
 -- Could not auto-generate a down migration.
 -- Please write an appropriate down migration for the SQL below:
 -- CREATE TABLE "pizza_topping"(

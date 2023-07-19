@@ -1,3 +1,4 @@
+
 CREATE TABLE "pizza_topping"(
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
@@ -42,3 +43,26 @@ ALTER TABLE
     "pizza_topping_pizza" ADD CONSTRAINT "pizza_topping_pizza_pizza_id_foreign" FOREIGN KEY("pizza_id") REFERENCES "pizza"("id");
 ALTER TABLE
     "pizza_topping_pizza" ADD CONSTRAINT "pizza_topping_pizza_pizza_topping_id_foreign" FOREIGN KEY("pizza_topping_id") REFERENCES "pizza_topping"("id");
+
+INSERT into friend (name) VALUES ('PETER');
+INSERT into friend (name) VALUES ('PAUL');
+INSERT into friend (name) VALUES ('MARY');
+
+alter table "public"."friend" add column "username" text
+ null unique;
+
+alter table "public"."friend" add column "password" text
+ null;
+
+alter table "public"."friend" alter column "username" set not null;
+
+alter table "public"."friend" drop column "name" cascade;
+
+alter table "public"."pizza" add column "original_friend" integer
+ not null;
+
+alter table "public"."pizza" add column "created_at" timestamptz
+ null default now();
+
+alter table "public"."pizza" add column "updated_at" timestamptz
+ null default now();
