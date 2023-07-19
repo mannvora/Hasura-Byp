@@ -53,8 +53,8 @@ import {
   const clientConfig = {
     url: process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT as string,
     fetchOptions: () => {
-  
-      return !isServerSide
+      console.log(process.env.HASURA_ADMIN_SECRET);
+      return isServerSide
         ? {
             headers: {
                 "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET as string,
